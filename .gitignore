@@ -1,0 +1,17 @@
+*~
+*.swp
+*Rsync.csh
+.RData
+.Rhistory
+*.csh
+*.txt
+
+old/
+figures/
+results/
+videos/
+data/
+doc/
+notes/
+communications/
+myReports/

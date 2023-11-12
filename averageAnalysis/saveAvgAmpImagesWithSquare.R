@@ -1,0 +1,40 @@
+saveAvgAmpImagesWithSquare <- function(sessionLabel,
+                                        freqPhase,
+                                        freqAmp,
+                                        htFilenamePattern,
+                                        pacFilenamePattern,
+                                        figDirnamePattern,
+                                        figFilenamePattern,
+                                        elecNumbers,
+                                        xMin, xMax, yMin, yMax,
+                                        lowCutoff, highCutoff,
+                                        fromTime, toTime,
+                                        desiredFrameRate,
+                                        titlePattern, 
+                                        nrow, ncol) {
+    res <- getAvgAmpArray(sessionLabel=sessionLabel, 
+                           freqPhase=freqPhase, 
+                           freqAmp=freqAmp,
+                           htFilenamePattern=htFilenamePattern, 
+                           pacFilenamePattern=pacFilenamePattern,
+                           elecNumbers=elecNumbers, 
+                           lowCutoff=lowCutoff, highCutoff=highCutoff, 
+                           fromTime=fromTime, toTime=toTime, 
+                           desiredFrameRate=desiredFrameRate,
+                           nrow=nrow, ncol=ncol)
+    avgAmpArrayInDB <- 20*log10(res$avgAmpArray)
+    figDirname <- sprintf(figDirnamePattern, sessionLabel, min(elecNumbers), max(elecNumbers), res$actualFrameRate, freqPhase, freqAmp, fromTime, toTime, lowCutoff, highCutoff, order)
+    saveImagesWithSquareFromArray(anArray=avgAmpArrayInDB,
+                                   sessionLabe=sessionLabel,
+                                   actualFrameRate=res$actualFrameRate,
+                                   timesToSave=res$timesToSave,
+                                   xMin=xMin, xMax=xMax, yMin=yMin, yMax=yMax,
+                                   lowCutoff=lowCutoff, highCutoff=highCutoff, 
+                                   fromTime=fromTime, toTime=toTime,
+                                   zlim=range(avgAmpArrayInDB, na.rm=TRUE),
+                                   scaleName="amplitude (dB)",
+                                   figDirname=figDirname, 
+                                   figFilenamePattern=figFilenamePattern,
+                                   titlePattern=titlePattern)
+}
+
